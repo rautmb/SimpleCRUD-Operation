@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+
+        var cityname = [{ "cityid": 1, "cityname": "Pune" }, { "cityid": 2, "cityname": "Mumbai" }, { "cityid": 3, "cityname": "latur" },
+        { "cityid": 4, "cityname": "Solapur" }]
+        function dropcity() {
+
+            var data = "<option selected disabled>Select City</option>";
+
+            cityname.forEach(function (v, i) {
+                data += "<option>" + v.cityname + "</option>";
+            })
+            document.getElementById('dcity').innerHTML = data;
+
+        }
+
+        function calculate() {
+            var c = Number(document.getElementById('v3').value);
+            var d = Number(document.getElementById('v4').value);
+            var e = Number(document.getElementById('v5').value);
+
+            var t = c + d + e;
+            document.getElementById('v6').value = t;
+            var p = (t / 3).toFixed(2);
+            document.getElementById('v7').value = p;
+            var fresult = "";
+
+            if (p > 35) {
+                fresult = "Pass";
+            }
+            else {
+                fresult = "Fail";
+
+            }
+            document.getElementById('v8').value = fresult;
+        }
+
+        var student = [];
+        function display() {
+            var a = Number(document.getElementById('v1').value);
+            var b = document.getElementById('v2').value;
+            var c = Number(document.getElementById('v3').value);
+            var d = Number(document.getElementById('v4').value);
+            var e = Number(document.getElementById('v5').value);
+            var cityn = document.getElementById('dcity').value;
+            var f = Number(document.getElementById('v6').value);
+            var g = Number(document.getElementById('v7').value);
+            var h = document.getElementById('v8').value;
+
+            var re = "";
+            var col = ""
+            if (g > 35) {
+                re = "Pass";
+                col = "green";
+            }
+            else {
+                re = "Fail";
+                col = "red";
+            }
+
+            var alldata = { "rollno": a, "name": b, "marathi": c, "hindi": d, "english": e, "cityname": cityn, "total": f, "percentage": g, "res": h, "color": col };
+            student.push(alldata);
+            displaydata();
+            cleardata();
+        }
+
+        function cleardata() {
+            document.getElementById('v1').value = "";
+            document.getElementById('v2').value = "";
+            document.getElementById('v3').value = "";
+            document.getElementById('v4').value = "";
+            document.getElementById('v5').value = "";
+            document.getElementById('v6').value = "";
+            document.getElementById('v7').value = "";
+            document.getElementById('v8').value = "";
+            document.getElementById('dcity').value = "";
+            dropcity();
+        }
+
+        function displaydata() {
+            var result = "";
+            var tp = 0, tf = 0, ts = 0;
+
+            student.forEach(function (v, i) {
+                if (v.percentage > 35) {
+                    tp++;
+                }
+                else {
+                    tf++;
+                }
+
+                ts = tp + tf;
+
+                result += "<tr><td>" + (i + 1) + "</td><td>" + v.rollno + "</td><td>" + v.name + "</td><td>" + v.marathi +
+                    "</td><td>" + v.hindi + "</td><td>" + v.english + "</td><td>" + v.cityname + "</td><td>" + v.total + "</td><td>" +
+                    v.percentage + "</td><td style='color:" + v.color + "'>" + v.res +
+                    "</td><td><input type='button' value='edit' onclick='edit(" + i + ")'/> <input type='button' value='Delete' onclick='deletedata(" + i + ")'/></td></tr>";
+            })
+            document.getElementById('tdata').innerHTML = result;
+            document.getElementById('tp').innerHTML = tp;
+            document.getElementById('tf').innerHTML = tf;;
+            document.getElementById('ts').innerHTML = ts;;
+        }
+
+        function serno() {
+            var store = document.getElementById('sr').value;
+            var data = "";
+
+            if (store != 0) {
+                student.forEach(function (v, i) {
+                    if (v.rollno == store) {
+                        data += "<tr><td>" + (i + 1) + "</td><td>" + v.rollno + "</td><td>" + v.name + "</td><td>" + v.marathi +
+                            "</td><td>" + v.hindi + "</td><td>" + v.english + "</td><td>" + v.cityname + "</td><td>" + v.total + "</td><td>" +
+                            v.percentage + "</td><td style='color:" + v.color + "'>" + v.res + "</td></tr>";
+                    }
+                })
+
+                document.getElementById('tdata').innerHTML = data;
+            }
+
+            else {
+                displaydata();
+            }
+        }
+
+        function serna() {
+            var store = document.getElementById('sn').value;
+            var data = "";
+
+            if (store != 0) {
+                student.forEach(function (v, i) {
+                    if (v.name.toLowerCase().includes(store.toLowerCase())) {
+                        data += "<tr><td>" + (i + 1) + "</td><td>" + v.rollno + "</td><td>" + v.name + "</td><td>" + v.marathi +
+                            "</td><td>" + v.hindi + "</td><td>" + v.english + "</td><td>" + v.cityname + "</td><td>" + v.total + "</td><td>" +
+                            v.percentage + "</td><td style='color:" + v.color + "'>" + v.res + "</td></tr>";
+                    }
+
+                })
+                document.getElementById('tdata').innerHTML = data;
+            }
+
+            else {
+                displaydata();
+            }
+        }
+
+        var index = "";
+
+        function edit(d) {
+            index = d;
+            var a = student[d];
+            document.getElementById('v1').value = a.rollno;
+            document.getElementById('v2').value = a.name;
+            document.getElementById('v3').value = a.marathi;
+            document.getElementById('v4').value = a.hindi;
+            document.getElementById('v5').value = a.english;
+            document.getElementById('v6').value = a.total;
+            document.getElementById('v7').value = a.percentage;
+            document.getElementById('v8').value = a.res;
+            document.getElementById('dcity').value = a.cityn;
+        }
+
+        function updatedata() {
+            var a = Number(document.getElementById('v1').value);
+            var b = document.getElementById('v2').value;
+            var c = Number(document.getElementById('v3').value);
+            var d = Number(document.getElementById('v4').value);
+            var e = Number(document.getElementById('v5').value);
+            var cityn = document.getElementById('dcity').value;
+            var f = Number(document.getElementById('v6').value);
+            var g = Number(document.getElementById('v7').value);
+            var h = document.getElementById('v8').value;
+
+            var re = "";
+            var col = ""
+            if (g > 35) {
+                re = "Pass";
+                col = "green";
+            }
+            else {
+                re = "Fail";
+                col = "red";
+            }
+
+            var alldata = { "rollno": a, "name": b, "marathi": c, "hindi": d, "english": e, "cityname": cityn, "total": f, "percentage": g, "res": h, "color": col };
+            student[index] = alldata;
+            displaydata();
+            cleardata();
+        }
+
+        function deletedata(s) {
+            student.splice(s, 1);
+            display();
+        }
+    </script>
+</head>
+
+<body onload="dropcity()">
+
+    <h1>Use onclick,onchange,onload and onkeyup</h1>
+
+    <table>
+        <tr>
+            <th>Roll_Number</th>
+            <th><input type="text" id="v1"></th>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <th><input type="text" id="v2"></th>
+        </tr>
+        <tr>
+            <th>Marathi</th>
+            <th><input type="text" id="v3" onchange="calculate()"></th>
+        </tr>
+        <tr>
+            <th>Hindi</th>
+            <th><input type="text" id="v4" onchange="calculate()"></th>
+        </tr>
+        <tr>
+            <th>English</th>
+            <th><input type="text" id="v5" onchange="calculate()"></th>
+        </tr>
+        <tr>
+            <th>City</th>
+            <th>
+                <select id="dcity">
+                    <option selected disabled>Select City</option>
+                </select>
+            </th>
+        </tr>
+        <tr>
+            <th>Total</th>
+            <th><input type="text" id="v6"></th>
+        </tr>
+        <tr>
+            <th>Percentage</th>
+            <th><input type="text" id="v7"></th>
+        </tr>
+        <tr>
+            <th>Result</th>
+            <th><input type="text" id="v8"></th>
+        </tr>
+        <tr>
+            <th><input type="button" value="submit" onclick="display()"></th>
+            <th><input type="button" value="Update" onclick="updatedata()"></th>
+        </tr>
+    </table>
+
+    <hr>
+
+    <table border="2">
+        <thead>
+            <tr>
+                <th>Sr.No</th>
+                <th>Roll_Number <br>
+                    <input type="text" placeholder="Enter Roll No" id="sr" onkeyup="serno()">
+                </th>
+                <th>Name <br>
+                    <input type="text" placeholder="Enter Name" id="sn" onkeyup="serna()">
+                </th>
+                <th>Marathi</th>
+                <th>Hindi</th>
+                <th>English</th>
+                <th>City</th>
+                <th>Total</th>
+                <th>Percentage</th>
+                <th>Result</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="tdata"></tbody>
+    </table>
+
+    <hr>
+
+    <table border="2">
+        <thead>
+            <tr>
+                <th>Total Pass</th>
+                <th>Total Fail</th>
+                <th>Total Student</th>
+            <tr>
+                <td id="tp"></td>
+                <td id="tf"></td>
+                <td id="ts"></td>
+            </tr>
+            </tr>
+        </thead>
+    </table>
+
+</body>
+
+</html>
